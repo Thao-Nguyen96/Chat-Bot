@@ -1,0 +1,69 @@
+{
+  "project_info": {
+    "project_number": "862019428405",
+    "firebase_url": "https://absolute-keel-291511-default-rtdb.firebaseio.com",
+    "project_id": "absolute-keel-291511",
+    "storage_bucket": "absolute-keel-291511.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:862019428405:android:77f6785eebb5a4b5f6d17c",
+        "android_client_info": {
+          "package_name": "com.nxt.chatbot"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "862019428405-7i7n6tqttvf2l2mt34v75qhe21n082rm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBSgsk_ayf3j-CMoyYEDN3aZBaD3N8W1a8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "862019428405-7i7n6tqttvf2l2mt34v75qhe21n082rm.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:862019428405:android:0a79b6dd2e75fa1df6d17c",
+        "android_client_info": {
+          "package_name": "com.nxt.myapplication"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "862019428405-7i7n6tqttvf2l2mt34v75qhe21n082rm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBSgsk_ayf3j-CMoyYEDN3aZBaD3N8W1a8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "862019428405-7i7n6tqttvf2l2mt34v75qhe21n082rm.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

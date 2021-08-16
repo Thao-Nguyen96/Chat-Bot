@@ -5,6 +5,8 @@ import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.*
 import com.nxt.chatbot.R
 import com.nxt.chatbot.data.Message
 import com.nxt.chatbot.utils.BotResponse
@@ -15,6 +17,8 @@ import com.nxt.chatbot.utils.Constants.SEND_ID
 import com.nxt.chatbot.utils.Time
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.*
+
+//firebase
 
 class MainActivity : AppCompatActivity() {
     private lateinit var adapter: MessagingAdapter
@@ -28,6 +32,38 @@ class MainActivity : AppCompatActivity() {
 
         val random = (0..3).random()
         customMessage("Hello! Today you 're speaking with ${botList[random]}, How may I help?")
+
+        listenForMessage()
+    }
+
+    private fun listenForMessage() {
+        val ref = FirebaseDatabase.getInstance().getReference("/message")
+
+        ref.addChildEventListener(object : ChildEventListener {
+            override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
+                val message = snapshot.getValue(Message::class.java)
+
+                adapter.insertMessage(message!!)
+                rv_messages.scrollToPosition(adapter.itemCount - 1)
+            }
+
+            override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {
+
+            }
+
+            override fun onChildRemoved(snapshot: DataSnapshot) {
+
+            }
+
+            override fun onChildMoved(snapshot: DataSnapshot, previousChildName: String?) {
+
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+
+            }
+
+        })
     }
 
     private fun clickEvents() {
@@ -54,11 +90,14 @@ class MainActivity : AppCompatActivity() {
         val timeStamp = Time.timeStamp()
 
         if (message.isNotEmpty()) {
-            et_message.setText("")
-            adapter.insertMessage(Message(message, SEND_ID, timeStamp))
-            //item count là listMessage.size
-            rv_messages.scrollToPosition(adapter.itemCount - 1)
+            //adapter.insertMessage(Message(message, SEND_ID, timeStamp))
+            val ref = FirebaseDatabase.getInstance().getReference("/message").push()
+            ref.setValue(Message(message, SEND_ID, timeStamp))
+                .addOnSuccessListener {
+                    et_message.text.clear()
 
+                    rv_messages.scrollToPosition(adapter.itemCount - 1)
+                }
             botResponse(message)
         }
     }
@@ -76,7 +115,8 @@ class MainActivity : AppCompatActivity() {
                 //withcontext chạy trên mainthread của android : update tác vụ lâu dài lên UI
                 val response = BotResponse.basicResponse(message)
 
-                adapter.insertMessage(Message(response, RECEIVE_ID, timeStamp))
+                //adapter.insertMessage(Message(response, RECEIVE_ID, timeStamp))
+
                 rv_messages.scrollToPosition(adapter.itemCount - 1)
 
                 when (response) {
@@ -92,6 +132,9 @@ class MainActivity : AppCompatActivity() {
                         startActivity(site)
                     }
                 }
+
+                val ref = FirebaseDatabase.getInstance().getReference("/message").push()
+                ref.setValue(Message(response, RECEIVE_ID, timeStamp))
             }
         }
     }
