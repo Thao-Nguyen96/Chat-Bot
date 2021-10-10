@@ -1,14 +1,20 @@
 package com.nxt.chatbot.ui
 
+import android.app.AlertDialog
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.database.ChildEventListener
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
 import com.nxt.chatbot.R
 import com.nxt.chatbot.data.Message
 import com.nxt.chatbot.utils.Constants.RECEIVE_ID
 import com.nxt.chatbot.utils.Constants.SEND_ID
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.message_item.view.*
 import kotlinx.coroutines.delay
 
@@ -64,8 +70,24 @@ class MessagingAdapter : RecyclerView.Adapter<MessagingAdapter.MessageViewHolder
         //xoa tn khi click vào
         init {
             itemView.setOnClickListener {
-                messageList.removeAt(adapterPosition)
-                notifyItemRemoved(adapterPosition)
+
+                val builder = AlertDialog.Builder(itemView.context)
+                builder.setTitle("Delete Message")
+                builder.setMessage("go tin nhan tu ban ")
+                builder.setIcon(android.R.drawable.ic_dialog_alert)
+                builder.setPositiveButton("Yes") { dialog, which ->
+
+                    messageList.removeAt(adapterPosition)
+                    notifyItemRemoved(adapterPosition)
+                    dialog.dismiss()
+
+                }
+                builder.setNegativeButton("No") { dialog, which ->
+                    dialog.dismiss()
+                }
+                val alertDialog: AlertDialog = builder.create()
+                alertDialog.setCancelable(false)
+                alertDialog.show()
             }
         }
     }
